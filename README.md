@@ -33,6 +33,6 @@ java nginx jenkins
 
 
 ### TODO LIST
-[*]  nginx   prod: http://hcen.cc:9000/nmNLmQtEwGWIt/
-[ ]  java    test: http://hcen.cc:9001/html-container/api/
+[*]  nginx   prod: http://hcen.cc:19000/nmNLmQtEwGWIt/
+[ ]  java    test: http://hcen.cc:19001/html-container/api/
 [ ]  jenkins // all-my-work-flow
