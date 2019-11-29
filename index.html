@@ -20,9 +20,12 @@
 <script src="https://cdn.jsdelivr.net/npm/vue"></script>
 <script>
     var api = "http://hcen.cc:19001/html-container/api";
+    var myHeaders = new Headers({
+        'Access-Control-Allow-Origin': '*'
+    });
 
     function create() {
-        fetch(api + '/create?token=' + vm.token).then(rep => rep.json()).then(bb => vm.container = bb)
+        fetch(api + '/create?token=' + vm.token, {headers: myHeaders}).then(rep => rep.json()).then(bb => vm.container = bb)
     }
 
     function update() {
@@ -30,9 +33,7 @@
             const fd = new FormData();
             fd.append('file', f.files[0]);
             fd.append('container', vm.container);
-            let myHeaders = new Headers({
-                'Access-Control-Allow-Origin': '*'
-            });
+
             fetch(api + '/update?token=' + vm.token, {
                 method: 'POST',
                 body: fd,
