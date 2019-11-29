@@ -25,7 +25,7 @@ import java.util.UUID;
 public class HtmlContainerApp implements HandlerInterceptor, WebMvcConfigurer {
     private static final int port = 19001;
     private static final String token = "123456";
-    private String root = "/nginx/html-container ";
+    private String root = "/nginx/html-container";
 
     public static void main(String[] args) {
         SpringApplication.run(HtmlContainerApp.class);
@@ -56,7 +56,6 @@ public class HtmlContainerApp implements HandlerInterceptor, WebMvcConfigurer {
             return "exist";
         } else {
             // create dir
-            System.out.println(dir);
             return createDir(dir) ? dir : "create-fail";
         }
     }
