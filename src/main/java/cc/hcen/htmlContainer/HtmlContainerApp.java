@@ -65,13 +65,14 @@ public class HtmlContainerApp implements HandlerInterceptor {
         String cmd = "head /dev/urandom | tr -dc A-Za-z0-9 | head -c 13 ; echo ''";
         try {
             Process proc = Runtime.getRuntime().exec(cmd);
+            proc.waitFor();
             BufferedReader stdInput = new BufferedReader(new
                     InputStreamReader(proc.getInputStream()));
             // Read the output from the command
             dir = stdInput.readLine();
             stdInput.close();
             proc.destroy();
-        } catch (IOException e) {
+        } catch (IOException | InterruptedException e) {
             System.out.println("urandom error");
         }
         return dir;
