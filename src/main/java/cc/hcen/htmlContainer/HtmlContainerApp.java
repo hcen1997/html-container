@@ -8,15 +8,20 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.HandlerInterceptor;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
 
 @SpringBootApplication
 @RestController
 @RequestMapping("/html-container/api")
-public class HtmlContainerApp implements HandlerInterceptor {
+public class HtmlContainerApp implements HandlerInterceptor, WebMvcConfigurer {
     private static final int port = 19001;
     private static final String token = "123456";
     private String root = "/nginx/html-container ";
@@ -28,6 +33,11 @@ public class HtmlContainerApp implements HandlerInterceptor {
     @Bean
     public WebServerFactoryCustomizer<ConfigurableWebServerFactory> webServerFactoryCustomizer() {
         return factory -> factory.setPort(port);
+    }
+
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(this).addPathPatterns("/**");
     }
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)  {
