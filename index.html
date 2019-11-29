@@ -30,9 +30,13 @@
             const fd = new FormData();
             fd.append('file', f.files[0]);
             fd.append('container', vm.container);
+            let myHeaders = new Headers({
+                'Access-Control-Allow-Origin': '*'
+            });
             fetch(api + '/update?token=' + vm.token, {
                 method: 'POST',
-                body: fd
+                body: fd,
+                headers: myHeaders
             }).then(res => {
                 if (res.ok) {
                     vm.status = (+new Date()) + 'success';
