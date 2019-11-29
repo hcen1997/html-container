@@ -1,5 +1,6 @@
 package cc.hcen.htmlContainer;
 
+import com.alibaba.fastjson.JSON;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.server.ConfigurableWebServerFactory;
@@ -21,6 +22,7 @@ import java.util.UUID;
 
 @SpringBootApplication
 @RestController
+@CrossOrigin(origins = "http://hcen.cc:19000")
 @RequestMapping("/html-container/api")
 public class HtmlContainerApp implements HandlerInterceptor, WebMvcConfigurer {
     private static final int port = 19001;
@@ -56,7 +58,7 @@ public class HtmlContainerApp implements HandlerInterceptor, WebMvcConfigurer {
             return "exist";
         } else {
             // create dir
-            return createDir(dir) ? dir : "create-fail";
+            return createDir(dir) ? JSON.toJSONString(dir) : "create-fail";
         }
     }
 
@@ -90,15 +92,16 @@ public class HtmlContainerApp implements HandlerInterceptor, WebMvcConfigurer {
     }
 
     @PostMapping("/update")
-    public String update(@RequestParam String location,
+    public String update(@RequestParam String container,
                          @RequestParam String filename,
                          @RequestParam MultipartFile file) {
     // 要保证只能在容器里面上传
-        if(!isInContainer(location)){
+        if (!isInContainer(container)) {
             return "illegal";
         }
         //上传 或者覆盖一个文件 transferTo will delete the exist file first
-        String dir = location + "/" + filename;
+        String dir = container + "/" + filename;
+        // TODO 多级目录
         File local = new File(getPath(dir));
         // 新建
         try {

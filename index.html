@@ -1,0 +1,32 @@
+<html>
+<head>
+
+</head>
+<body>
+<div id="app">
+    <!--输入框 token-->
+    <input placeholder="请输入token" v-model="token"/>
+    <!--按钮 新建目录-->
+    <button @click="create()">新建目录</button>
+    <!--输入框 新建的或者输入的目录地址-->
+    <!--拖或者点击上传 list-->
+</div>
+<script src="https://cdn.jsdelivr.net/npm/vue"></script>
+<script>
+    var api = "http://hcen.cc:19001/html-container/api";
+
+    function create() {
+        fetch(api + '/create').then(rep => rep.body).then(bb => console.log(bb));
+        fetch(api + '/create').then(rep => rep.body).then(bb => vm.dir = bb)
+
+    }
+
+    var vm = new Vue({
+        el: '#app',
+        data: {
+            message: 'Hello Vue!'
+        }
+    })
+</script>
+</body>
+</html>
