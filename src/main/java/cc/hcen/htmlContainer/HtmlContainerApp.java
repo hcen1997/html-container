@@ -45,6 +45,7 @@ public class HtmlContainerApp implements HandlerInterceptor {
             return "exist";
         } else {
             // create dir
+            System.out.println(dir);
             return createDir(dir) ? dir : "create-fail";
         }
     }
