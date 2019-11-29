@@ -42,8 +42,9 @@ public class HtmlContainerApp implements HandlerInterceptor, WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(this).addPathPatterns("/**");
     }
+
     @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)  {
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
         String token = request.getParameter("token");
         return token != null && token.equals(HtmlContainerApp.token);
     }
@@ -93,13 +94,16 @@ public class HtmlContainerApp implements HandlerInterceptor, WebMvcConfigurer {
 
     @PostMapping("/update")
     public String update(@RequestParam String container,
-                         @RequestParam String filename,
                          @RequestParam MultipartFile file) {
-    // 要保证只能在容器里面上传
+        // 要保证只能在容器里面上传
         if (!isInContainer(container)) {
             return "illegal";
         }
         //上传 或者覆盖一个文件 transferTo will delete the exist file first
+        String filename = file.getOriginalFilename();
+        if (filename != null && filename.contains("/")) {
+            filename = filename.substring(filename.lastIndexOf("/") + 1);
+        }
         String dir = container + "/" + filename;
         // TODO 多级目录
         File local = new File(getPath(dir));
@@ -114,7 +118,7 @@ public class HtmlContainerApp implements HandlerInterceptor, WebMvcConfigurer {
 
     private boolean isInContainer(String location) {
         String[] list = new File(this.root).list((dir, name) -> location.equals(name));
-        return list!=null&& list.length==1;
+        return list != null && list.length == 1;
     }
 
 }

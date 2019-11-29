@@ -9,22 +9,51 @@
     <!--按钮 新建目录-->
     <button @click="create()">新建目录</button>
     <!--输入框 新建的或者输入的目录地址-->
-    <!--拖或者点击上传 list-->
+    <label for="container-name">容器UUID: </label>
+    <input id="container-name" placeholder="请输入容器uuid" v-model="container">
+    <!--拖或者点击上传 list TODO 多级目录上传-->
+    <input type="file" multiple placeholder="请选择文件上传" :files="files">
+    <button @click="update()">上传文件</button>
+    <div>{{status}}</div>
+    <div>{{message}}</div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/vue"></script>
 <script>
     var api = "http://hcen.cc:19001/html-container/api";
 
     function create() {
-        fetch(api + '/create').then(rep => rep.body).then(bb => console.log(bb));
-        fetch(api + '/create').then(rep => rep.body).then(bb => vm.dir = bb)
+        fetch(api + '/create?token=' + vm.token).then(rep => rep.json()).then(bb => vm.container = bb)
+    }
 
+    function update() {
+        vm.files.forEach(f => {
+            const fd = new FormData();
+            fd.append('file', f.files[0]);
+            fd.append('container', vm.container);
+            fetch(api + '/update?token=' + vm.token, {
+                method: 'POST',
+                body: fd
+            }).then(res => {
+                if (res.ok) {
+                    vm.status = (+new Date()) + 'success';
+                    return res.json();
+                } else {
+                    vm.status('error')
+                }
+            }).then(res => {
+                vm.status = 'res is: ' + res
+            })
+        })
     }
 
     var vm = new Vue({
         el: '#app',
         data: {
-            message: 'Hello Vue!'
+            status: '',
+            message: '',
+            files: [],
+            token: '',
+            container: ''
         }
     })
 </script>
