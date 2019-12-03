@@ -5,15 +5,20 @@
 <body>
 <div id="app">
     <!--输入框 token-->
-    <input placeholder="请输入token" v-model="token"/>
+    <label for="token">token: </label>
+    <input id="token" placeholder="请输入token" v-model="token"/>
+    <br>
     <!--按钮 新建目录-->
     <button @click="create()">新建目录</button>
+    <br>
     <!--输入框 新建的或者输入的目录地址-->
     <label for="container-name">容器UUID: </label>
     <input id="container-name" placeholder="请输入容器uuid" v-model="container">
+    <br>
     <!--拖或者点击上传 list TODO 多级目录上传-->
     <input type="file" multiple placeholder="请选择文件上传" :files="files">
     <button @click="update()">上传文件</button>
+    <br>
     <div>{{status}}</div>
     <div>{{message}}</div>
 </div>
