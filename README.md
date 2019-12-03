@@ -45,4 +45,6 @@ java
 ### TODO LIST
 [*]  nginx   prod: http://hcen.cc:19000/nmNLmQtEwGWIt/
 [ ]  java    test: http://hcen.cc:19001/html-container/api/
-[ ]  jenkins // all-my-work-flow
+
+### 测试
+2019年12月3日 java 挂了
