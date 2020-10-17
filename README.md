@@ -47,4 +47,8 @@ java
 [ ]  java    test: http://hcen.cc:19001/html-container/api/
 
 ### 测试
-2019年12月3日 java 挂了
+2019年12月3日 java 挂了  
+
+### fail summery   
+DO RESERCH before make project.  
+txti.es beat this thing to earth core  
